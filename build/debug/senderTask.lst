@@ -1,0 +1,223 @@
+ARM GAS  /tmp/cc4ul6ub.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"senderTask.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/senderTask.c"
+  20              		.section	.rodata.senderTask.str1.4,"aMS",%progbits,1
+  21              		.align	2
+  22              	.LC0:
+  23 0000 48454C4C 		.ascii	"HELLO MOTHERFUCKER\000"
+  23      4F204D4F 
+  23      54484552 
+  23      4655434B 
+  23      455200
+  24              		.section	.text.senderTask,"ax",%progbits
+  25              		.align	1
+  26              		.global	senderTask
+  27              		.syntax unified
+  28              		.thumb
+  29              		.thumb_func
+  31              	senderTask:
+  32              	.LVL0:
+  33              	.LFB137:
+   1:Core/Src/senderTask.c **** #include "senderTask.h"
+   2:Core/Src/senderTask.c **** #include <stdio.h>
+   3:Core/Src/senderTask.c **** #include <math.h> // for NAN
+   4:Core/Src/senderTask.c **** 
+   5:Core/Src/senderTask.c **** extern QueueHandle_t q;
+   6:Core/Src/senderTask.c **** 
+   7:Core/Src/senderTask.c **** void senderTask(void* argument) {
+  34              		.loc 1 7 33 view -0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 8
+  37              		@ frame_needed = 0, uses_anonymous_args = 0
+  38              		.loc 1 7 33 is_stmt 0 view .LVU1
+  39 0000 10B5     		push	{r4, lr}
+  40              		.cfi_def_cfa_offset 8
+  41              		.cfi_offset 4, -8
+  42              		.cfi_offset 14, -4
+  43 0002 82B0     		sub	sp, sp, #8
+  44              		.cfi_def_cfa_offset 16
+   8:Core/Src/senderTask.c **** 	float msg = 1.0f;
+  45              		.loc 1 8 2 is_stmt 1 view .LVU2
+  46              		.loc 1 8 8 is_stmt 0 view .LVU3
+ARM GAS  /tmp/cc4ul6ub.s 			page 2
+
+
+  47 0004 4FF07E53 		mov	r3, #1065353216
+  48 0008 0193     		str	r3, [sp, #4]	@ float
+   9:Core/Src/senderTask.c **** 	TickType_t wakeTime = xTaskGetTickCount();
+  49              		.loc 1 9 2 is_stmt 1 view .LVU4
+  50              		.loc 1 9 24 is_stmt 0 view .LVU5
+  51 000a FFF7FEFF 		bl	xTaskGetTickCount
+  52              	.LVL1:
+  53              		.loc 1 9 13 discriminator 1 view .LVU6
+  54 000e 0090     		str	r0, [sp]
+  10:Core/Src/senderTask.c **** 	TickType_t period = pdMS_TO_TICKS(50U); // periodo di 50ms
+  55              		.loc 1 10 2 is_stmt 1 view .LVU7
+  56              	.LVL2:
+  11:Core/Src/senderTask.c **** 
+  12:Core/Src/senderTask.c **** 	#ifdef configENABLE_FPU
+  13:Core/Src/senderTask.c **** 	printf("HELLO MOTHERFUCKER\n");
+  57              		.loc 1 13 2 view .LVU8
+  58 0010 2048     		ldr	r0, .L6
+  59 0012 FFF7FEFF 		bl	puts
+  60              	.LVL3:
+  14:Core/Src/senderTask.c **** 	#endif
+  15:Core/Src/senderTask.c **** 
+  16:Core/Src/senderTask.c **** 	#if configENABLE_FPU
+  17:Core/Src/senderTask.c **** 	printf("OH NO MOTHERFUCKER");
+  18:Core/Src/senderTask.c **** 	#endif
+  19:Core/Src/senderTask.c **** 
+  20:Core/Src/senderTask.c **** 	// proviamo a mandare dei nan e poi si inizia a mandare valori non nan 
+  21:Core/Src/senderTask.c **** 	for(size_t j = 0; j<5; ++j) {
+  61              		.loc 1 21 2 view .LVU9
+  62              	.LBB2:
+  63              		.loc 1 21 6 view .LVU10
+  64              		.loc 1 21 13 is_stmt 0 view .LVU11
+  65 0016 0024     		movs	r4, #0
+  66              		.loc 1 21 2 view .LVU12
+  67 0018 0DE0     		b	.L2
+  68              	.LVL4:
+  69              	.L3:
+  22:Core/Src/senderTask.c **** 		vTaskDelayUntil(&wakeTime, period);
+  70              		.loc 1 22 3 is_stmt 1 view .LVU13
+  71 001a 3221     		movs	r1, #50
+  72 001c 6846     		mov	r0, sp
+  73 001e FFF7FEFF 		bl	vTaskDelayUntil
+  74              	.LVL5:
+  23:Core/Src/senderTask.c **** 		msg = NAN;
+  75              		.loc 1 23 3 view .LVU14
+  76              		.loc 1 23 7 is_stmt 0 view .LVU15
+  77 0022 1D4B     		ldr	r3, .L6+4
+  78 0024 0193     		str	r3, [sp, #4]	@ float
+  24:Core/Src/senderTask.c **** 		xQueueSend(q, &msg, 0U);
+  79              		.loc 1 24 3 is_stmt 1 view .LVU16
+  80 0026 0023     		movs	r3, #0
+  81 0028 1A46     		mov	r2, r3
+  82 002a 01A9     		add	r1, sp, #4
+  83 002c 1B48     		ldr	r0, .L6+8
+  84 002e 0068     		ldr	r0, [r0]
+  85 0030 FFF7FEFF 		bl	xQueueGenericSend
+  86              	.LVL6:
+  21:Core/Src/senderTask.c **** 		vTaskDelayUntil(&wakeTime, period);
+ARM GAS  /tmp/cc4ul6ub.s 			page 3
+
+
+  87              		.loc 1 21 25 discriminator 3 view .LVU17
+  88 0034 0134     		adds	r4, r4, #1
+  89              	.LVL7:
+  90              	.L2:
+  21:Core/Src/senderTask.c **** 		vTaskDelayUntil(&wakeTime, period);
+  91              		.loc 1 21 21 discriminator 1 view .LVU18
+  92 0036 042C     		cmp	r4, #4
+  93 0038 EFD9     		bls	.L3
+  94              	.LBE2:
+  25:Core/Src/senderTask.c **** 	}
+  26:Core/Src/senderTask.c **** 
+  27:Core/Src/senderTask.c **** 	// make it defined again
+  28:Core/Src/senderTask.c **** 	msg = 1.0f;
+  95              		.loc 1 28 2 view .LVU19
+  96              		.loc 1 28 6 is_stmt 0 view .LVU20
+  97 003a 4FF07E53 		mov	r3, #1065353216
+  98 003e 0193     		str	r3, [sp, #4]	@ float
+  99              	.L4:
+  29:Core/Src/senderTask.c **** 
+  30:Core/Src/senderTask.c **** 	while(1) {
+ 100              		.loc 1 30 2 is_stmt 1 view .LVU21
+  31:Core/Src/senderTask.c **** 		vTaskDelayUntil(&wakeTime, period);
+ 101              		.loc 1 31 3 view .LVU22
+ 102 0040 3221     		movs	r1, #50
+ 103 0042 6846     		mov	r0, sp
+ 104 0044 FFF7FEFF 		bl	vTaskDelayUntil
+ 105              	.LVL8:
+  32:Core/Src/senderTask.c **** 		msg = (float) ((int)(msg + 1) %20) + 0.5;
+ 106              		.loc 1 32 3 view .LVU23
+ 107              		.loc 1 32 28 is_stmt 0 view .LVU24
+ 108 0048 DDED017A 		vldr.32	s15, [sp, #4]
+ 109 004c B7EE007A 		vmov.f32	s14, #1.0e+0
+ 110 0050 77EE877A 		vadd.f32	s15, s15, s14
+ 111              		.loc 1 32 18 view .LVU25
+ 112 0054 FDEEE77A 		vcvt.s32.f32	s15, s15
+ 113 0058 17EE902A 		vmov	r2, s15	@ int
+ 114              		.loc 1 32 33 view .LVU26
+ 115 005c 1049     		ldr	r1, .L6+12
+ 116 005e 81FB0231 		smull	r3, r1, r1, r2
+ 117 0062 D317     		asrs	r3, r2, #31
+ 118 0064 C3EBE103 		rsb	r3, r3, r1, asr #3
+ 119 0068 03EB8303 		add	r3, r3, r3, lsl #2
+ 120 006c A2EB8303 		sub	r3, r2, r3, lsl #2
+ 121              		.loc 1 32 9 view .LVU27
+ 122 0070 07EE903A 		vmov	s15, r3	@ int
+ 123 0074 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 124              		.loc 1 32 38 view .LVU28
+ 125 0078 B6EE007A 		vmov.f32	s14, #5.0e-1
+ 126 007c 77EE877A 		vadd.f32	s15, s15, s14
+ 127              		.loc 1 32 7 view .LVU29
+ 128 0080 CDED017A 		vstr.32	s15, [sp, #4]
+  33:Core/Src/senderTask.c **** 		xQueueSend(q, &msg, 0U);
+ 129              		.loc 1 33 3 is_stmt 1 discriminator 1 view .LVU30
+ 130 0084 0023     		movs	r3, #0
+ 131 0086 1A46     		mov	r2, r3
+ 132 0088 01A9     		add	r1, sp, #4
+ 133 008a 0448     		ldr	r0, .L6+8
+ARM GAS  /tmp/cc4ul6ub.s 			page 4
+
+
+ 134 008c 0068     		ldr	r0, [r0]
+ 135 008e FFF7FEFF 		bl	xQueueGenericSend
+ 136              	.LVL9:
+  30:Core/Src/senderTask.c **** 		vTaskDelayUntil(&wakeTime, period);
+ 137              		.loc 1 30 7 view .LVU31
+ 138 0092 D5E7     		b	.L4
+ 139              	.L7:
+ 140              		.align	2
+ 141              	.L6:
+ 142 0094 00000000 		.word	.LC0
+ 143 0098 0000C07F 		.word	2143289344
+ 144 009c 00000000 		.word	q
+ 145 00a0 67666666 		.word	1717986919
+ 146              		.cfi_endproc
+ 147              	.LFE137:
+ 149              		.text
+ 150              	.Letext0:
+ 151              		.file 2 "/home/nil/.config/VSCodium/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/arm-n
+ 152              		.file 3 "/home/nil/.config/VSCodium/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/arm-n
+ 153              		.file 4 "/home/nil/.config/VSCodium/User/globalStorage/bmd.stm32-for-vscode/@xpack-dev-tools/arm-n
+ 154              		.file 5 "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h"
+ 155              		.file 6 "Middlewares/Third_Party/FreeRTOS/Source/include/queue.h"
+ 156              		.file 7 "Middlewares/Third_Party/FreeRTOS/Source/include/task.h"
+ 157              		.file 8 "<built-in>"
+ARM GAS  /tmp/cc4ul6ub.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 senderTask.c
+     /tmp/cc4ul6ub.s:21     .rodata.senderTask.str1.4:00000000 $d
+     /tmp/cc4ul6ub.s:25     .text.senderTask:00000000 $t
+     /tmp/cc4ul6ub.s:31     .text.senderTask:00000000 senderTask
+     /tmp/cc4ul6ub.s:142    .text.senderTask:00000094 $d
+
+UNDEFINED SYMBOLS
+xTaskGetTickCount
+puts
+vTaskDelayUntil
+xQueueGenericSend
+q
