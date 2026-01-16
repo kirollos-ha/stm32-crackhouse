@@ -2,3 +2,4 @@
 Debug/
 Release/
 build/
+.stm32env
